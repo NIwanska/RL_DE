@@ -4,50 +4,52 @@ class DifferentialEvolution:
     def __init__(
     self, 
     objective_fun,
-    pop_size,
+    popul_size,
     crossover_rate,
     F,
     max_iterations,
-    bounds):
+    bounds,
+    dimension):
         self.objective_fun = objective_fun
-        self.pop_size = pop_size
+        self.popul_size = popul_size
         self.crossover_rate = crossover_rate
         self.F = F
         self.max_iterations = max_iterations
         self.bounds = bounds
-        self.num_params = len(bounds)
+        self.num_params = dimension
         
-    def initialize_pop(self):
+    def initialize_popul(self):
         return np.random.uniform(
             low=self.bounds[0], 
             high=self.bounds[1], 
-            size=(self.pop_size, self.num_params))
+            size=(self.popul_size, self.num_params))
     
-    def mutate(self, pop):
-        mutated_pop = np.copy(pop)
-        for i in range(self.pop_size):
-            a, b, c = np.random.choice(self.pop_size, 3, replace=False)
-            mutated_pop[i] = pop[a] + self.F * (pop[b] - pop[c])
-        return mutated_pop
+    def mutate(self, popul):
+        mutated_popul = np.copy(popul)
+        for i in range(self.popul_size):
+            a, b, c = np.random.choice(self.popul_size, 3, replace=False)
+            mutated_popul[i] = popul[a] + self.F * (popul[b] - popul[c])
+        return mutated_popul
     
-    def crossover(self, pop, mutated_pop):
-        trial_pop = np.copy(pop)
-        for i in range(self.pop_size):
+    def crossover(self, popul, mutated_popul):
+        trial_popul = np.copy(popul)
+        for i in range(self.popul_size):
             for j in range(self.num_params):
                 if np.random.rand() < self.crossover_rate:
-                    trial_pop[i, j] = mutated_pop[i, j]
-        return trial_pop
+                    trial_popul[i, j] = mutated_popul[i, j]
+        return trial_popul
     
     def evolve(self):
-        pop = self.initialize_pop()
+        popul = self.initialize_popul()
+        obj_val = self.objective_fun(popul)
         for _ in range(self.max_iterations):
-            mutated_pop = self.mutate(pop)
-            trial_pop = self.crossover(pop, mutated_pop)
-            for i in range(self.pop_size):
-                obj_val_current = self.objective_fun(pop[i])
-                obj_val_trial = self.objective_fun(trial_pop[i])
-                if obj_val_trial < obj_val_current:
-                    pop[i] = trial_pop[i]
-        return pop[np.argmin([self.objective_fun(i) for i in pop])]
+            mutated_popul = self.mutate(popul)
+            trial_popul = self.crossover(popul, mutated_popul)
+            obj_val_trial = self.objective_fun(trial_popul)
+            for i in range(self.popul_size):               
+                if obj_val_trial[i] < obj_val[i]:
+                    popul[i] = trial_popul[i]
+                    obj_val[i] = obj_val_trial[i]
+        return min(obj_val), popul[np.argmin(obj_val)]
 
 
