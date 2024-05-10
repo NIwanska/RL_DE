@@ -5,19 +5,17 @@ import time
 
 f = functions.f3
 
-
-def objective_function(x):
-    return np.sum(np.square(x))
-
 # Inicjalizacja obiektu klasy DifferentialEvolution
 DE = DifferentialEvolution(
     objective_fun=f,
     popul_size=100,
     crossover_rate=0.5,
-    F=0.5,
     max_iterations=1000,
     bounds=(-100, 100),
-    dimension=30
+    dimension=2,
+    F=0.5,
+    selection = 'best', #'rand',
+    num_diff = 1  #2
 )
 start_time = time.time()
 # Uruchomienie ewolucji

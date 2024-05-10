@@ -9,7 +9,10 @@ class DifferentialEvolution:
     F,
     max_iterations,
     bounds,
-    dimension):
+    dimension,
+    selection,
+    num_diff
+    ):
         self.objective_fun = objective_fun
         self.popul_size = popul_size
         self.crossover_rate = crossover_rate
@@ -17,6 +20,8 @@ class DifferentialEvolution:
         self.max_iterations = max_iterations
         self.bounds = bounds
         self.num_params = dimension
+        self.selection = selection
+        self.num_diff = num_diff
         
     def initialize_popul(self):
         return np.random.uniform(
@@ -24,11 +29,19 @@ class DifferentialEvolution:
             high=self.bounds[1], 
             size=(self.popul_size, self.num_params))
     
-    def mutate(self, popul):
+    def mutate(self, popul, best_from_popul):
         mutated_popul = np.copy(popul)
         for i in range(self.popul_size):
-            a, b, c = np.random.choice(self.popul_size, 3, replace=False)
-            mutated_popul[i] = popul[a] + self.F * (popul[b] - popul[c])
+            if self.selection == 'best':
+                a = best_from_popul
+            elif self.selection == 'rand':
+                 a = np.random.randint(0, self.popul_size)
+            if self.num_diff == 1:
+                b, c = np.random.choice(self.popul_size, 2, replace=False)
+                mutated_popul[i] = popul[a] + self.F * (popul[b] - popul[c])
+            elif self.num_diff == 2:    
+                b, c, d, f = np.random.choice(self.popul_size, 4, replace=False)
+                mutated_popul[i] = popul[a] + self.F * (popul[b] - popul[c]) + self.F * (popul[d] - popul[f])
         return mutated_popul
     
     def crossover(self, popul, mutated_popul):
@@ -43,7 +56,7 @@ class DifferentialEvolution:
         popul = self.initialize_popul()
         obj_val = self.objective_fun(popul)
         for _ in range(self.max_iterations):
-            mutated_popul = self.mutate(popul)
+            mutated_popul = self.mutate(popul, np.argmin(obj_val))
             trial_popul = self.crossover(popul, mutated_popul)
             obj_val_trial = self.objective_fun(trial_popul)
             for i in range(self.popul_size):               
