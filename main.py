@@ -10,7 +10,7 @@ DE = DifferentialEvolution(
     objective_fun=f,
     popul_size=100,
     crossover_rate=0.5,
-    max_iterations=1000,
+    max_iterations=20,
     bounds=(-100, 100),
     dimension=2,
     F=0.5,
@@ -19,7 +19,7 @@ DE = DifferentialEvolution(
 )
 start_time = time.time()
 # Uruchomienie ewolucji
-result, result_point = DE.evolve()
+result, result_point, state = DE.evolve()
 
 end_time = time.time()
 
@@ -29,3 +29,4 @@ execution_time = end_time - start_time
 print("Czas wykonania funkcji:", execution_time, "sekund.")
 print("Najlepszy wynik:", result)
 print("Najlepsze rozwiązanie:", result_point)
+print("Stan:", state)

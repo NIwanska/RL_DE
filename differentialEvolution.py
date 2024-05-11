@@ -52,17 +52,42 @@ class DifferentialEvolution:
                     trial_popul[i, j] = mutated_popul[i, j]
         return trial_popul
     
+    def avg_distance(self, popul):
+        avg_distance = np.mean(np.linalg.norm(popul - popul.mean(axis=0), axis=1))
+        return avg_distance
+    
+    # def evolve(self):
+    #     popul = self.initialize_popul()
+    #     obj_val = self.objective_fun(popul)
+    #     for _ in range(self.max_iterations):
+    #         mutated_popul = self.mutate(popul, np.argmin(obj_val))
+    #         trial_popul = self.crossover(popul, mutated_popul)
+    #         obj_val_trial = self.objective_fun(trial_popul)
+    #         for i in range(self.popul_size):               
+    #             if obj_val_trial[i] < obj_val[i]:
+    #                 popul[i] = trial_popul[i]
+    #                 obj_val[i] = obj_val_trial[i]
+    #     return min(obj_val), popul[np.argmin(obj_val)]
+    
     def evolve(self):
         popul = self.initialize_popul()
         obj_val = self.objective_fun(popul)
+        success_rate = 0
         for _ in range(self.max_iterations):
             mutated_popul = self.mutate(popul, np.argmin(obj_val))
             trial_popul = self.crossover(popul, mutated_popul)
             obj_val_trial = self.objective_fun(trial_popul)
-            for i in range(self.popul_size):               
+            
+            for i in range(self.popul_size):
+
                 if obj_val_trial[i] < obj_val[i]:
+                    success_rate += 1
                     popul[i] = trial_popul[i]
                     obj_val[i] = obj_val_trial[i]
-        return min(obj_val), popul[np.argmin(obj_val)]
+        avg_distance = self.avg_distance(popul)
+        success_rate = success_rate/(self.max_iterations*self.popul_size)
+            # Zwracanie procentowego sukcesu i średniej odległości jako stan
+        state = (success_rate, avg_distance)  
+        return min(obj_val), popul[np.argmin(obj_val)], state
 
 
