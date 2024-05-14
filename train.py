@@ -17,7 +17,6 @@ def train_qsolver(q_solver: QLearningSolver,env_handler: Env, learning_iter, plo
         state = (0, closest_key_avg_dist[1])
         done = False
         total_reward = 0
-        print(q_solver.q_table)
         while not done:
             # Wybór akcji
             if q_solver.epsilon > rd.random():

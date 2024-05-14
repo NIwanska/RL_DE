@@ -26,10 +26,12 @@ class Env:
     def action(self, action_idx):
         match action_idx:
             case 0:
-                self.de.F += 0.2
+                if self.de.F < 2:
+                    self.de.F += 0.2
             
             case 1:
-                self.de.F -= 0.2
+                if self.de.F > 0:
+                    self.de.F -= 0.2
 
             case 2:
                 self.de.selection = 'best'
@@ -62,13 +64,14 @@ class Env:
         done = False
         self.action(action)
         result, _, next_state = self.de.evolve()
-        reward = next_state[0] * 10 # - result
+        reward = next_state[0] * 10
+        self.actions_counter += 1
 
         if self.actions_counter > 200:
             done = True
         
         if self.prev_result is not None:
-            if result - self.prev_result:
+            if result - self.prev_result < 0.001:
                 done = True
         self.prev_result = result
 
