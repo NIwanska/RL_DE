@@ -33,7 +33,9 @@ class QLearningSolver:
         self.q_table[(state[0], state[1], action)] = new_q
 
     def get_best_action(self, state: tuple) -> int:
-        filtered_keys = [k for k in self.q_table if k[0] == state[0] and k[1] == state[1]]      
+        print(self.q_table)
+        filtered_keys = [k for k in self.q_table if k[0] == state[0] and k[1] == state[1]]
+
         return max(filtered_keys, key=self.q_table.get)[2]
 
 

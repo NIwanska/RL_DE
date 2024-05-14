@@ -11,9 +11,13 @@ def train_qsolver(q_solver: QLearningSolver,env_handler: Env, learning_iter, plo
     num_episodes = learning_iter
     all_rewards = []
     for episode in range(num_episodes):
-        state = env_handler.reset()
+        env_handler.reset()
+        state = env_handler.get_first_state()
+        closest_key_avg_dist = min(q_solver.keys(), key=lambda k: abs(k[1] - state[1]))
+        state = (0, closest_key_avg_dist[1])
         done = False
         total_reward = 0
+        print(q_solver.q_table)
         while not done:
             # Wybór akcji
             if q_solver.epsilon > rd.random():
@@ -27,7 +31,7 @@ def train_qsolver(q_solver: QLearningSolver,env_handler: Env, learning_iter, plo
             # Dyskretyzacja
             closest_key_suc_rate = min(q_solver.keys(), key=lambda k: abs(k[0] - next_state[0]))
             closest_key_avg_dist = min(q_solver.keys(), key=lambda k: abs(k[1] - next_state[1]))
-            next_state = (closest_key_suc_rate, closest_key_avg_dist) 
+            next_state = (closest_key_suc_rate[0], closest_key_avg_dist[1]) 
 
             # Update wartości q
             q_solver.update(state, action, reward, next_state)

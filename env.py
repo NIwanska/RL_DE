@@ -19,7 +19,7 @@ class Env:
         )
         self.safed_de_state = None
         self.observation_space = self.create_obs_space(dimensions)
-        self.de.initialize_popul()
+        # self.de.initialize_popul()
         self.actions_counter = 0
         self.prev_result = None
 
@@ -73,5 +73,9 @@ class Env:
         self.prev_result = result
 
         return (next_state, reward, done)
+    
+    def get_first_state(self):
+        avg_distance = self.de.avg_distance(self.de.population)
+        return (0, avg_distance)
     
     
