@@ -89,5 +89,8 @@ class DifferentialEvolution:
             # Zwracanie procentowego sukcesu i średniej odległości jako stan
         state = (success_rate, avg_distance)  
         return min(obj_val), popul[np.argmin(obj_val)], state
+    
+    def set_obj_function(self, func):
+        self.objective_fun = func
 
 
