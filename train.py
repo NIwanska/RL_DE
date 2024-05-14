@@ -25,7 +25,7 @@ def train_qsolver(q_solver: QLearningSolver,env_handler: Env, learning_iter, plo
                 action = q_solver.get_best_action(state)
             
             # Wykonanie akcji
-            next_state, reward, done= env_handler.step(action)[0:3]
+            next_state, reward, done= env_handler.step(action)
 
             # Dyskretyzacja
             closest_key_suc_rate = min(q_solver.keys(), key=lambda k: abs(k[0] - next_state[0]))

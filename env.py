@@ -4,7 +4,7 @@ import random
 
 class Env:
 
-    def __init__(self, func, population_size, iterrations_per_action, dimensions) -> None:
+    def __init__(self, func, population_size, iterrations_per_action, dimensions, iterations_per_episode) -> None:
         self.func = func
         self.de = DifferentialEvolution(
             objective_fun=func,
@@ -22,6 +22,7 @@ class Env:
         # self.de.initialize_popul()
         self.actions_counter = 0
         self.prev_result = None
+        self.iter_per_episode = iterations_per_episode
 
     def action(self, action_idx):
         match action_idx:
@@ -67,13 +68,13 @@ class Env:
         reward = next_state[0] * 10
         self.actions_counter += 1
 
-        if self.actions_counter > 200:
+        if self.actions_counter > self.iter_per_episode:
             done = True
         
-        if self.prev_result is not None:
-            if result - self.prev_result < 0.001:
-                done = True
-        self.prev_result = result
+        # if self.prev_result is not None:
+        #     if result - self.prev_result < 0.001:
+        #         done = True
+        # self.prev_result = result
 
         return (next_state, reward, done)
     
