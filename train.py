@@ -3,7 +3,7 @@ from qLearningSolver import QLearningSolver
 import random as rd
 import matplotlib.pyplot as plt
 
-def train_qsolver(q_solver: QLearningSolver,env_handler: Env, q_params, learning_iter, plots: bool, verbose:
+def train_qsolver(q_solver: QLearningSolver,env_handler: Env, learning_iter, plots: bool, verbose:
                                                         bool=False):
     # observation_space = env_handler.observation_space
 
