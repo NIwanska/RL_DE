@@ -14,12 +14,12 @@ DE = DifferentialEvolution(
     crossover_rate=0.5,
     max_iterations=20,
     bounds=(-100, 100),
-    dimension=2,
+    dimension=10,
     F=0.5,
     selection = 'best', #'rand',
     num_diff = 1,  #2
     train = False
-    
+
 )
 for _ in range(100):
     DE.initialize_popul()
@@ -34,7 +34,7 @@ with open('q_solver.pkl', 'rb') as file:
 
 for _ in range(100):
     env_handler = Env(func=f1, population_size=100, iterrations_per_action=1, 
-                    dimensions=2, iterations_per_episode=20, train=False)
+                    dimensions=10, iterations_per_episode=20, train=False)
 
     test_qsolver(q_solver, env_handler)
 

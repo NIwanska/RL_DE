@@ -10,6 +10,8 @@ class Plot_conv:
         self.x_data, self.y_data = [], []
         self.ax.set_xlim(0, 20)
         self.legend = 'clear_de'
+        self.min = float('inf')
+        self.max= float('-inf')
         
 
 
@@ -31,7 +33,9 @@ def add_point(y):
     if plotter.tests == 20*100:
         plotter.ys = [x / 100 for x in plotter.ys]
         print(plotter.ys[-1])
-        plotter.ax.set_ylim(min(plotter.ys), max(plotter.ys))
+        plotter.min = min(plotter.min,min(plotter.ys))
+        plotter.max = max(plotter.max,max(plotter.ys))
+        plotter.ax.set_ylim(plotter.min, plotter.max)
         plotter.tests = 0
         plotter.ax.plot(range(20), plotter.ys, 'o-', label=plotter.legend)
         plotter.ax.legend()
