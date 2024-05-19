@@ -23,10 +23,12 @@ def add_point(y):
         plotter.ys.append(y)
     else:
         plotter.ys[plotter.x] += y
+        
 
     plotter.x += 1
 
     if plotter.x == 20:
+        print(y)
         plotter.x = 0
         # print('x=0')
     plotter.tests +=1

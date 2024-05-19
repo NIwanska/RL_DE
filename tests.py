@@ -1,6 +1,5 @@
 from env import Env
-from qLearningSolver import QLearningSolver
-from train import train_qsolver, test_qsolver
+from qLearningSolver import QLearningSolver, train_qsolver
 import cec2017.functions as functions
 from cec2017.utils import surface_plot
 import pickle

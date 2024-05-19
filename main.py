@@ -1,6 +1,6 @@
 from differentialEvolution import DifferentialEvolution 
 import cec2017.functions as functions
-from train import train_qsolver, test_qsolver
+from qLearningSolver import test_qsolver
 import pickle
 from env import Env
 import matplotlib.pyplot as plt
