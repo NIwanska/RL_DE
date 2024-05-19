@@ -13,7 +13,7 @@ class Env:
             max_iterations=iterrations_per_action,
             bounds=(-100, 100),
             dimension=dimensions,
-            F=0.8,
+            F=0.5,
             selection = 'best', #'rand',
             num_diff = 1  #2
         )
@@ -27,11 +27,11 @@ class Env:
     def action(self, action_idx):
         match action_idx:
             case 0:
-                if self.de.F < 2:
+                if self.de.F < 1.81:
                     self.de.F += 0.2
             
             case 1:
-                if self.de.F > 0:
+                if self.de.F > 0.19:
                     self.de.F -= 0.2
 
             case 2:
@@ -57,6 +57,7 @@ class Env:
         
     def reset(self):
         self.de.initialize_popul()
+        self.actions_counter = 0
 
     def action_sample(self):
         return random.randint(0, 5)
@@ -65,7 +66,7 @@ class Env:
         done = False
         self.action(action)
         result, _, next_state = self.de.evolve()
-        reward = next_state[0] * 10
+        reward = (next_state[0]-0.3) * 10
         self.actions_counter += 1
 
         if self.actions_counter > self.iter_per_episode:

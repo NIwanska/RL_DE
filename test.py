@@ -22,9 +22,6 @@ samples = 3
 dimension = 2
 for i in range(0, 10):
     x = np.random.uniform(low=-100, high=100, size=(samples, dimension))
-    print('dupa1')
-    print(x)
-    print('dupa2')
     y = f(x)
     for i in range(samples):
         print(f"f5({x[i, 0]:.2f}, {x[i, 1]:.2f}, ...) = {y[i]:.2f}")

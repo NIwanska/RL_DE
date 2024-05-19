@@ -17,6 +17,8 @@ DE = DifferentialEvolution(
     selection = 'best', #'rand',
     num_diff = 1  #2
 )
+
+DE.initialize_popul()
 start_time = time.time()
 # Uruchomienie ewolucji
 result, result_point, state = DE.evolve()

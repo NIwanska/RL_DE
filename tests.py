@@ -16,7 +16,7 @@ f5 = functions.f25
 
 # Inicjalizacja środowiska
 env_handler = Env(func=f1, population_size=100, iterrations_per_action=1, 
-                  dimensions=10, iterations_per_episode=20)
+                  dimensions=2, iterations_per_episode=20)
 
 observation_space = env_handler.observation_space
 # lr, gamma, epsilon
@@ -28,13 +28,13 @@ q_solver = QLearningSolver(observation_space,
                         q_params[0], q_params[1], q_params[2])
 
 
-q_solver = train_qsolver(q_solver, env_handler, 4000, False, True)
+q_solver = train_qsolver(q_solver, env_handler, 400, False, True)
 
-env_handler.de.set_obj_function(f2)
-q_solver = train_qsolver(q_solver, env_handler, 4000, False, True)
+# env_handler.de.set_obj_function(f2)
+# q_solver = train_qsolver(q_solver, env_handler, 4000, False, True)
 
-env_handler.de.set_obj_function(f3)
-q_solver = train_qsolver(q_solver, env_handler, 4000, False, True)
+# env_handler.de.set_obj_function(f3)
+# q_solver = train_qsolver(q_solver, env_handler, 4000, False, True)
 
 
 not_zero = 0
