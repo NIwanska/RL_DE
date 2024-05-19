@@ -1,13 +1,15 @@
 from differentialEvolution import DifferentialEvolution 
-import numpy as np
 import cec2017.functions as functions
-import time
+from train import train_qsolver, test_qsolver
+import pickle
+from env import Env
+import matplotlib.pyplot as plt
 
-f = functions.f3
+f1 = functions.f3
 
 # Inicjalizacja obiektu klasy DifferentialEvolution
 DE = DifferentialEvolution(
-    objective_fun=f,
+    objective_fun=f1,
     popul_size=100,
     crossover_rate=0.5,
     max_iterations=20,
@@ -15,20 +17,25 @@ DE = DifferentialEvolution(
     dimension=2,
     F=0.5,
     selection = 'best', #'rand',
-    num_diff = 1  #2
+    num_diff = 1,  #2
+    train = False
+    
 )
+for _ in range(100):
+    DE.initialize_popul()
 
-DE.initialize_popul()
-start_time = time.time()
-# Uruchomienie ewolucji
-result, result_point, state = DE.evolve()
+    # Uruchomienie ewolucji
+    result, result_point, state = DE.evolve()
 
-end_time = time.time()
 
-# Obliczamy czas wykonania funkcji
-execution_time = end_time - start_time
 
-print("Czas wykonania funkcji:", execution_time, "sekund.")
-print("Najlepszy wynik:", result)
-print("Najlepsze rozwiązanie:", result_point)
-print("Stan:", state)
+with open('q_solver.pkl', 'rb') as file:
+    q_solver = pickle.load(file)
+
+for _ in range(100):
+    env_handler = Env(func=f1, population_size=100, iterrations_per_action=1, 
+                    dimensions=2, iterations_per_episode=20, train=False)
+
+    test_qsolver(q_solver, env_handler)
+
+plt.show()

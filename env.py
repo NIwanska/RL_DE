@@ -4,7 +4,7 @@ import random
 
 class Env:
 
-    def __init__(self, func, population_size, iterrations_per_action, dimensions, iterations_per_episode) -> None:
+    def __init__(self, func, population_size, iterrations_per_action, dimensions, iterations_per_episode, train) -> None:
         self.func = func
         self.de = DifferentialEvolution(
             objective_fun=func,
@@ -15,7 +15,8 @@ class Env:
             dimension=dimensions,
             F=0.5,
             selection = 'best', #'rand',
-            num_diff = 1  #2
+            num_diff = 1,  #2
+            train = train
         )
         self.safed_de_state = None
         self.observation_space = self.create_obs_space(dimensions)
@@ -69,7 +70,7 @@ class Env:
         reward = (next_state[0]-0.3) * 10
         self.actions_counter += 1
 
-        if self.actions_counter > self.iter_per_episode:
+        if self.actions_counter >= self.iter_per_episode:
             done = True
         
         # if self.prev_result is not None:

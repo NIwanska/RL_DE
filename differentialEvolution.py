@@ -1,5 +1,7 @@
 import numpy as np
 
+from plot_conv import add_point
+
 class DifferentialEvolution:
     def __init__(
     self, 
@@ -11,7 +13,8 @@ class DifferentialEvolution:
     bounds,
     dimension,
     selection,
-    num_diff
+    num_diff,
+    train
     ):
         self.objective_fun = objective_fun
         self.popul_size = popul_size
@@ -23,7 +26,8 @@ class DifferentialEvolution:
         self.selection = selection
         self.num_diff = num_diff
         self.population = []
-        self.obj_val =[]
+        self.obj_val = []
+        self.train = train
 
     def initialize_popul(self):
         self.population = np.random.uniform(
@@ -82,9 +86,10 @@ class DifferentialEvolution:
                     success_rate += 1
                     self.population[i] = trial_popul[i]
                     self.obj_val[i] = obj_val_trial[i]
-
-            print(min(self.obj_val))
-            print(success_rate/((1+_)*self.popul_size))
+            if not self.train:
+                add_point(min(self.obj_val))
+                # print(min(self.obj_val))
+                # print(success_rate/((1+_)*self.popul_size))
         avg_distance = self.avg_distance(self.population)
         success_rate = success_rate/(self.max_iterations*self.popul_size)
             # Zwracanie procentowego sukcesu i średniej odległości jako stan

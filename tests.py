@@ -1,12 +1,9 @@
-from differentialEvolution import DifferentialEvolution
 from env import Env
 from qLearningSolver import QLearningSolver
-from train import train_qsolver
-import numpy as np
-import matplotlib.pyplot as plt
+from train import train_qsolver, test_qsolver
 import cec2017.functions as functions
 from cec2017.utils import surface_plot
-import time
+import pickle
 
 f1 = functions.f3
 f2 = functions.f8
@@ -16,7 +13,7 @@ f5 = functions.f25
 
 # Inicjalizacja środowiska
 env_handler = Env(func=f1, population_size=100, iterrations_per_action=1, 
-                  dimensions=2, iterations_per_episode=20)
+                  dimensions=2, iterations_per_episode=20, train=True)
 
 observation_space = env_handler.observation_space
 # lr, gamma, epsilon
@@ -28,13 +25,16 @@ q_solver = QLearningSolver(observation_space,
                         q_params[0], q_params[1], q_params[2])
 
 
-q_solver = train_qsolver(q_solver, env_handler, 400, False, True)
+q_solver = train_qsolver(q_solver, env_handler, 500, False, True)
 
 # env_handler.de.set_obj_function(f2)
 # q_solver = train_qsolver(q_solver, env_handler, 4000, False, True)
 
 # env_handler.de.set_obj_function(f3)
 # q_solver = train_qsolver(q_solver, env_handler, 4000, False, True)
+
+with open('q_solver.pkl', 'wb') as file:
+    pickle.dump(q_solver, file)
 
 
 not_zero = 0
@@ -48,4 +48,12 @@ print(f'Ilość z wart q: {not_zero}; ilość wszystkich: {all}')
 
 
 
-# print(q_solver.q_table)
+
+
+
+
+
+# env_handler = Env(func=f1, population_size=100, iterrations_per_action=1, 
+#                   dimensions=2, iterations_per_episode=20, train=False)
+
+# test_qsolver(q_solver, env_handler)

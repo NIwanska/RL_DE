@@ -48,3 +48,26 @@ def train_qsolver(q_solver: QLearningSolver,env_handler: Env, learning_iter, plo
         plt.title(f'Wykres sumy nagród uzyskanych w poszczególnych iteracjach uczących\nLiczba iteracji uczących: {num_episodes}')
         plt.show()
     return q_solver
+
+
+def test_qsolver(q_solver: QLearningSolver,env_handler: Env):
+    env_handler.reset()
+    state = env_handler.get_first_state()
+    closest_key_avg_dist = min(q_solver.keys(), key=lambda k: abs(k[1] - state[1]))
+    state = (0, closest_key_avg_dist[1])
+    done = False
+    while not done:
+        action = q_solver.get_best_action(state)
+        
+        # Wykonanie akcji
+        next_state, reward, done= env_handler.step(action)
+
+        # Dyskretyzacja
+        closest_key_suc_rate = min(q_solver.keys(), key=lambda k: abs(k[0] - next_state[0]))
+        closest_key_avg_dist = min(q_solver.keys(), key=lambda k: abs(k[1] - next_state[1]))
+        next_state = (closest_key_suc_rate[0], closest_key_avg_dist[1]) 
+
+        state = next_state    
+
+   
+    return q_solver
