@@ -97,7 +97,10 @@ class DifferentialEvolution:
         
         return min(self.obj_val), self.population[np.argmin(self.obj_val)], state
     
-    def set_obj_function(self, func):
-        self.objective_fun = func
+    def set_obj_function(self, fs):
+        for i, f in enumerate(fs):
+            if self.objective_fun == f:
+                self.objective_fun = fs[(i + 1) % len(fs)]
+                break
 
 

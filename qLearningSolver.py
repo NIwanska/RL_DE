@@ -41,14 +41,15 @@ class QLearningSolver:
 
 
 
-def train_qsolver(q_solver: QLearningSolver,env_handler: Env, learning_iter, plots: bool, verbose:
-                                                        bool=False):
+def train_qsolver(q_solver: QLearningSolver,env_handler: Env, learning_iter,fs, plots: bool, verbose:
+                                                        bool=False ):
     # observation_space = env_handler.observation_space
 
     # Trening
     num_episodes = learning_iter
     all_rewards = []
     for episode in range(num_episodes):
+        env_handler.de.set_obj_function(fs)
         env_handler.reset()
         state = env_handler.get_first_state()
         closest_key_avg_dist = min(q_solver.keys(), key=lambda k: abs(k[1] - state[1]))
@@ -77,7 +78,7 @@ def train_qsolver(q_solver: QLearningSolver,env_handler: Env, learning_iter, plo
             state = next_state    
 
         all_rewards.append(total_reward)
-        if episode % 10 == 0 and verbose:
+        if episode % 100 == 0 and verbose:
             print(f"Episode: {episode}, Total Reward: {total_reward}")
     if plots:
         fig1 = plt.plot(all_rewards)
@@ -96,6 +97,7 @@ def test_qsolver(q_solver: QLearningSolver,env_handler: Env):
     done = False
     while not done:
         action = q_solver.get_best_action(state)
+        # print(action)
         
         # Wykonanie akcji
         next_state, reward, done= env_handler.step(action)

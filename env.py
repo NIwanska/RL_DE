@@ -67,7 +67,7 @@ class Env:
         done = False
         self.action(action)
         result, _, next_state = self.de.evolve()
-        reward = (next_state[0]-0.3) * 10
+        reward = (next_state[0]-0.2) * 10
         self.actions_counter += 1
 
         if self.actions_counter >= self.iter_per_episode:
