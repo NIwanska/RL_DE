@@ -1,3 +1,25 @@
+
+import matplotlib.pyplot as plt
+
+
+class Plot_conv:
+    def __init__(self):
+        self.x = 0
+        self.tests = 0
+        self.x_max = 40
+        self.tests_max = 100
+        self.ys = [[] for _ in range(100)]
+        self.fig, self.ax = plt.subplots()
+        self.points, = self.ax.plot([], [], 'o-')
+        self.x_data, self.y_data = [], []
+        self.ax.set_xlim(0, self.x_max)
+        self.legend = 'clear_de'
+        self.min = float('inf')
+        self.max= float('-inf')
+        
+
+
+
 from differentialEvolution import DifferentialEvolution 
 import cec2017.functions as functions
 from qLearningSolver import test_qsolver
@@ -41,7 +63,7 @@ def testing(f, k, dim_f, dim_q, iter):
         q_solver = pickle.load(file)
 
     for _ in range(100):
-        env_handler = Env(func=fs[f], population_size=100, iterrations_per_action=1, 
+        env_handler = Env(func=f, population_size=100, iterrations_per_action=1, 
                         dimensions=dim_f, iterations_per_episode=k, train=False)
 
         q_solver_same = test_qsolver(q_solver, env_handler)
@@ -51,19 +73,23 @@ def testing(f, k, dim_f, dim_q, iter):
     #         print(x)
             # print(q_solver_same.q_table[x])
     # print(q_solver_same.q_table)   
-    plt.title(f'funkcja f{f+1} {dim_f} wymiarowa')
-    
+    plt.title(f'funkcja f{f} {dim_f} wymiarowa')
+
     # Zapisywanie wykresu do pliku (np. PNG, PDF, SVG)
-    plt.savefig(f'funkcja_{f+1}_{dim_f}_{iter}_{dim_q}.png')  # Można zmienić rozszerzenie na .pdf, .svg itp.
-    plt.show() 
+    plt.savefig(f'funkcja_{f}_{dim_f}_{iter}_{dim_q}.png')  # Można zmienić rozszerzenie na .pdf, .svg itp.
+
+    plt.show()
 
 
 for f in range(6):
     for iter in [1000, 5000]:
         for dim_q in [2, 10]:
-            for dim_f    in [10]:
+            for dim_f    in [2, 10]:
+                if dim_f == 2 and f == 3:
+                    continue
                 if dim_f == 2:
                     k = 40
                 else:
-                    k = 100
+                    k = 80
                 testing(f, k, dim_f, dim_q, iter)
+                plotter = Plot_conv()

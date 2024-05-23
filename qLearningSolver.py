@@ -1,6 +1,8 @@
 import random as rd
 from env import Env
 import matplotlib.pyplot as plt
+import random
+
 
 class QLearningSolver:
 
@@ -34,8 +36,11 @@ class QLearningSolver:
 
     def get_best_action(self, state: tuple) -> int:
         filtered_keys = [k for k in self.q_table if k[0] == state[0] and k[1] == state[1]]
-
-        return max(filtered_keys, key=self.q_table.get)[2]
+        
+        max_value = max(self.q_table[k] for k in filtered_keys)
+        best_keys = [k for k in filtered_keys if self.q_table[k] == max_value]
+        best_action = random.choice(best_keys)[2]
+        return best_action
 
 
 

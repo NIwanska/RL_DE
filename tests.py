@@ -16,7 +16,7 @@ fs = [f1, f2, f3]
 env_handler = Env(func=f1, population_size=100, iterrations_per_action=1, 
                   dimensions=10, iterations_per_episode=80, train=True)
 
-observation_space = env_handler.observation_space
+observation_space = env_handler.observation_space 
 # lr, gamma, epsilon
 q_params = [0.5, 0.9, 0.5]
 
@@ -26,15 +26,11 @@ q_solver = QLearningSolver(observation_space,
                         q_params[0], q_params[1], q_params[2])
 
 
-q_solver = train_qsolver(q_solver, env_handler, 1000, fs, False, True)
+q_solver = train_qsolver(q_solver, env_handler, 5000, fs, False, True)
 
-# env_handler.de.set_obj_function(f2)
-# q_solver = train_qsolver(q_solver, env_handler, 4000, False, True)
 
-# env_handler.de.set_obj_function(f3)
-# q_solver = train_qsolver(q_solver, env_handler, 4000, False, True)
 
-with open('q_solver.pkl', 'wb') as file:
+with open('q_solver123_10_5000.pkl', 'wb') as file:
     pickle.dump(q_solver, file)
 
 

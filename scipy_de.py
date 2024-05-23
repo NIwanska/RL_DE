@@ -11,10 +11,10 @@ f4 = functions.f15
 f5 = functions.f25
 f6 = functions.f10
 
-func = f1
+func = f2
 
 # Zakresy dla poszczególnych zmiennych
-bounds = [(-100, 100)] * 10
+bounds = [(-100, 100)] * 2
 progress = []
 
 # Wrapper dla funkcji celu, aby przekształcić x na odpowiedni kształt
@@ -29,7 +29,7 @@ def callback(xk, convergence):
     print(f"Iteration {len(progress)}: {best_value}")
 
 # Wywołanie algorytmu różnicowej ewolucji z funkcją zwrotną
-result = differential_evolution(func_wrapper, bounds, callback=callback)
+result = differential_evolution(func_wrapper, bounds,callback=callback, maxiter=20)
 
 # Wyświetlenie wyników
 print("Optymalne rozwiązanie:", result.x)
