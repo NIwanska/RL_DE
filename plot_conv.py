@@ -10,7 +10,6 @@ class Plot_conv:
         self.tests_max = 100
         self.ys = [[] for _ in range(100)]
         self.fig, self.ax = plt.subplots()
-        # self.points, = self.ax.plot([], [], 'o-')
         self.x_data, self.y_data = [], []
         self.ax.set_xlim(0, self.x_max)
         self.legend = 'clear_de'
@@ -23,17 +22,12 @@ plotter = Plot_conv()
 
 def add_point(y):
     if plotter.tests_2 == 2*plotter.x_max*plotter.tests_max:
-        # Stwórz nowe okno wykresu
-        # plotter.ys = [[] for _ in range(100)]
         plotter.fig, plotter.ax = plt.subplots()
-        # plotter.points, = plotter.ax.plot([], [], 'o-')
-        # plotter.x_data, plotter.y_data = [], []
         plotter.ax.set_xlim(0, plotter.x_max)
         plotter.legend = 'clear_de'
         plotter.min = float('inf')
         plotter.max= float('-inf')
         plotter.tests_2 = 0
-    # print(y)
     plotter.ys[plotter.tests // plotter.x_max].append(y)
 
     plotter.tests +=1
@@ -41,7 +35,6 @@ def add_point(y):
     if plotter.tests == plotter.x_max*plotter.tests_max:
         Y = np.array(plotter.ys)
 
-        # Obliczenie średnich dla każdej z 20 kolumn
         means = np.mean(Y, axis=0)
         conv = np.std(Y, axis=0)
         mins = np.min(Y, axis=0)
@@ -54,7 +47,6 @@ def add_point(y):
         plotter.tests = 0
         plotter.ax.plot(range(plotter.x_max), means, 'o-', label=plotter.legend)
         plotter.ax.legend()
-        # plotter.fig.canvas.draw()
         plotter.ys = [[] for _ in range(100)]
         plotter.legend = 'qlearning_de'
         

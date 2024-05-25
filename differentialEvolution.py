@@ -72,8 +72,6 @@ class DifferentialEvolution:
     
 
     def evolve(self):
-        # self.population = self.initialize_popul()
-        # self.obj_val = self.objective_fun(self.population)
         success_rate = 0
         for _ in range(self.max_iterations):
             mutated_popul = self.mutate(self.population, np.argmin(self.obj_val))
@@ -88,11 +86,8 @@ class DifferentialEvolution:
                     self.obj_val[i] = obj_val_trial[i]
             if not self.train:
                 add_point(min(self.obj_val))
-                # print(min(self.obj_val))
-                # print(success_rate/((1+_)*self.popul_size))
         avg_distance = self.avg_distance(self.population)
         success_rate = success_rate/(self.max_iterations*self.popul_size)
-            # Zwracanie procentowego sukcesu i średniej odległości jako stan
         state = (success_rate, avg_distance)  
         
         return min(self.obj_val), self.population[np.argmin(self.obj_val)], state

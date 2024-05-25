@@ -12,16 +12,16 @@ f5 = functions.f25
 
 fs = [f1, f2, f3]
 
-# Inicjalizacja środowiska
+
 env_handler = Env(func=f1, population_size=100, iterrations_per_action=1, 
                   dimensions=10, iterations_per_episode=80, train=True)
 
-observation_space = env_handler.observation_space 
+observation_space = env_handler.observation_space
+
 # lr, gamma, epsilon
 q_params = [0.5, 0.9, 0.5]
 
 
-# Inicjalizacja solvera
 q_solver = QLearningSolver(observation_space,
                         q_params[0], q_params[1], q_params[2])
 
@@ -44,13 +44,3 @@ for k in q_solver.q_table:
 print(f'Ilość z wart q: {not_zero}; ilość wszystkich: {all}')
 
 
-
-
-
-
-
-
-# env_handler = Env(func=f1, population_size=100, iterrations_per_action=1, 
-#                   dimensions=2, iterations_per_episode=20, train=False)
-
-# test_qsolver(q_solver, env_handler)

@@ -20,7 +20,6 @@ class Env:
         )
         self.safed_de_state = None
         self.observation_space = self.create_obs_space(dimensions)
-        # self.de.initialize_popul()
         self.actions_counter = 0
         self.prev_result = None
         self.iter_per_episode = iterations_per_episode
@@ -51,9 +50,9 @@ class Env:
         self.safe_de_state = self.de.population
 
     def create_obs_space(self, dimensions):
-        values1 = np.arange(0, 1.05, 0.05)  # od 0 do 1 z rozdzielczością 0.05
-        values2 = np.linspace(0, 200*np.sqrt(dimensions), 20)  # od 0 do dim, 20 wartości
-        values3 = np.arange(0, 6)  # od 0 do 5, całkowite
+        values1 = np.arange(0, 1.05, 0.05)
+        values2 = np.linspace(0, 200*np.sqrt(dimensions), 20)
+        values3 = np.arange(0, 6)
         return (values1, values2, values3)
         
     def reset(self):
@@ -72,11 +71,6 @@ class Env:
 
         if self.actions_counter >= self.iter_per_episode:
             done = True
-        
-        # if self.prev_result is not None:
-        #     if result - self.prev_result < 0.001:
-        #         done = True
-        # self.prev_result = result
 
         return (next_state, reward, done)
     

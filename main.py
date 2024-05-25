@@ -15,7 +15,6 @@ f6 = functions.f10
 fs = [f1, f2, f3, f4, f5, f6]
 
 def testing(f, k, dim_f, dim_q, iter):
-    # Inicjalizacja obiektu klasy DifferentialEvolution
     DE = DifferentialEvolution(
         objective_fun=fs[f],
         popul_size=100,
@@ -31,11 +30,7 @@ def testing(f, k, dim_f, dim_q, iter):
     )
     for _ in range(100):
         DE.initialize_popul()
-
-        # Uruchomienie ewolucji
         result, result_point, state = DE.evolve()
-
-
 
     with open(f'q_solver123_{dim_q}_{iter}.pkl', 'rb') as file:
         q_solver = pickle.load(file)
@@ -46,15 +41,9 @@ def testing(f, k, dim_f, dim_q, iter):
 
         q_solver_same = test_qsolver(q_solver, env_handler)
 
-    # for x in (q_solver_same.q_table):
-    #     if(q_solver_same.q_table[x]) != 0:
-    #         print(x)
-            # print(q_solver_same.q_table[x])
-    # print(q_solver_same.q_table)   
     plt.title(f'funkcja f{f+1} {dim_f} wymiarowa')
     
-    # Zapisywanie wykresu do pliku (np. PNG, PDF, SVG)
-    plt.savefig(f'funkcja_{f+1}_{dim_f}_{iter}_{dim_q}.png')  # Można zmienić rozszerzenie na .pdf, .svg itp.
+    plt.savefig(f'funkcja_{f+1}_{dim_f}_{iter}_{dim_q}.png')
     plt.show() 
 
 
