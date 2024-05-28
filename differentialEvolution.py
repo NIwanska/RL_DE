@@ -85,12 +85,12 @@ class DifferentialEvolution:
                     self.population[i] = trial_popul[i]
                     self.obj_val[i] = obj_val_trial[i]
             if not self.train:
-                add_point(min(self.obj_val))
+                add_point(min(self.obj_val), self.objective_fun)
         avg_distance = self.avg_distance(self.population)
         success_rate = success_rate/(self.max_iterations*self.popul_size)
         state = (success_rate, avg_distance)  
         
-        return min(self.obj_val), self.population[np.argmin(self.obj_val)], state
+        return min(self.obj_val), state
     
     def set_obj_function(self, fs):
         for i, f in enumerate(fs):

@@ -9,7 +9,7 @@ class Env:
         self.de = DifferentialEvolution(
             objective_fun=func,
             popul_size=population_size,
-            crossover_rate=0.5,
+            crossover_rate=0.8,
             max_iterations=iterrations_per_action,
             bounds=(-100, 100),
             dimension=dimensions,
@@ -65,7 +65,7 @@ class Env:
     def step(self, action):
         done = False
         self.action(action)
-        result, _, next_state = self.de.evolve()
+        result, next_state = self.de.evolve()
         reward = (next_state[0]-0.2) * 10
         self.actions_counter += 1
 

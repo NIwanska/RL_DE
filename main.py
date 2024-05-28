@@ -18,7 +18,7 @@ def testing(f, k, dim_f, dim_q, iter):
     DE = DifferentialEvolution(
         objective_fun=fs[f],
         popul_size=100,
-        crossover_rate=0.5,
+        crossover_rate=0.8,
         max_iterations=k,
         bounds=(-100, 100),
         dimension=dim_f,
@@ -28,23 +28,23 @@ def testing(f, k, dim_f, dim_q, iter):
         train = False
 
     )
-    for _ in range(100):
+    for _ in range(50):
         DE.initialize_popul()
-        result, result_point, state = DE.evolve()
+        DE.evolve()
 
     with open(f'q_solver123_{dim_q}_{iter}.pkl', 'rb') as file:
         q_solver = pickle.load(file)
 
-    for _ in range(100):
+    for _ in range(50):
         env_handler = Env(func=fs[f], population_size=100, iterrations_per_action=1, 
                         dimensions=dim_f, iterations_per_episode=k, train=False)
 
-        q_solver_same = test_qsolver(q_solver, env_handler)
+        test_qsolver(q_solver, env_handler)
 
-    plt.title(f'funkcja f{f+1} {dim_f} wymiarowa')
+    plt.title(f'Krzywa ECDF: funkcja f{f+1} {dim_f} wymiarowa')
     
     plt.savefig(f'funkcja_{f+1}_{dim_f}_{iter}_{dim_q}.png')
-    plt.show() 
+    # plt.show() 
 
 
 for f in range(6):
