@@ -36,11 +36,11 @@ class DifferentialEvolution:
             size=(self.popul_size, self.num_params))
         self.obj_val = self.objective_fun(self.population)
     
-    def mutate(self, popul, best_from_popul):
+    def mutate(self, popul):
         mutated_popul = np.copy(popul)
         for i in range(self.popul_size):
             if self.selection == 'best':
-                a = best_from_popul
+                a = np.argmin(self.obj_val)
             elif self.selection == 'rand':
                  a = np.random.randint(0, self.popul_size)
             if self.num_diff == 1:
@@ -74,7 +74,7 @@ class DifferentialEvolution:
     def evolve(self):
         success_rate = 0
         for _ in range(self.max_iterations):
-            mutated_popul = self.mutate(self.population, np.argmin(self.obj_val))
+            mutated_popul = self.mutate(self.population)
             trial_popul = self.crossover(self.population, mutated_popul)
             obj_val_trial = self.objective_fun(trial_popul)
             

@@ -16,7 +16,7 @@ class Plot_conv:
         self.tests_2 =0
         self.x = 0
         self.tests = 0
-        self.x_max = 100
+        self.x_max = 200
         self.tests_max = 50
         self.ys = [[] for _ in range(self.tests_max)]
         self.fig, self.ax = plt.subplots()
@@ -52,15 +52,21 @@ def add_point(y, f):
         conv = np.std(Y, axis=0)
         mins = np.min(Y, axis=0)
         maxs = np.max(Y, axis=0)
-        x = np.sort(means)
+        x = np.sort(means)[10:]
+
         y = np.arange(1, len(x) + 1) / len(x)
         print(means[-1])
         zapisz_dane_do_pliku(means[-1], conv, mins, maxs, plotter.legend, f)
-        plotter.min = min(plotter.min, min(y))
-        plotter.max = max(plotter.max, max(y))
+        # plotter.min = min(plotter.min, min(y))
+        # plotter.max = max(plotter.max, max(y))
         # plotter.ax.set_ylim(plotter.min, plotter.max)
-        plotter.tests = 0
         plotter.ax.plot(x, y, marker='.', linestyle='none', label=plotter.legend)
+        # plotter.min = min(plotter.min,min(means))
+        # plotter.max = max(plotter.max,max(means))
+        # plotter.ax.set_ylim(plotter.min, plotter.max)
+        # plotter.ax.plot(range(plotter.x_max), means, 'o-', label=plotter.legend)
+
+        plotter.tests = 0
         plotter.ax.legend()
         plotter.ys = [[] for _ in range(plotter.tests_max)]
         plotter.legend = 'qlearning_de'
