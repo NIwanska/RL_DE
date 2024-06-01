@@ -36,8 +36,8 @@ class DifferentialEvolution:
             size=(self.popul_size, self.num_params))
         self.obj_val = self.objective_fun(self.population)
     
-    def mutate(self, popul):
-        mutated_popul = np.copy(popul)
+    def mutate(self):
+        mutated_popul = np.copy(self.population)
         for i in range(self.popul_size):
             if self.selection == 'best':
                 a = np.argmin(self.obj_val)
@@ -45,10 +45,10 @@ class DifferentialEvolution:
                  a = np.random.randint(0, self.popul_size)
             if self.num_diff == 1:
                 b, c = np.random.choice(self.popul_size, 2, replace=False)
-                mutated_popul[i] = popul[a] + self.F * (popul[b] - popul[c])
+                mutated_popul[i] = self.population[a] + self.F * (self.population[b] - self.population[c])
             elif self.num_diff == 2:    
                 b, c, d, f = np.random.choice(self.popul_size, 4, replace=False)
-                mutated_popul[i] = popul[a] + self.F * (popul[b] - popul[c]) + self.F * (popul[d] - popul[f])
+                mutated_popul[i] = self.population[a] + self.F * (self.population[b] - self.population[c]) + self.F * (self.population[d] - self.population[f])
             for coordinate in mutated_popul[i]:
                 if coordinate < self.bounds[0]:
                     coordinate = self.bounds[0] + (self.bounds[0] - coordinate)
@@ -58,24 +58,24 @@ class DifferentialEvolution:
     
 
 
-    def crossover(self, popul, mutated_popul):
-        trial_popul = np.copy(popul)
+    def crossover(self, mutated_popul):
+        trial_popul = np.copy(self.population)
         for i in range(self.popul_size):
             for j in range(self.num_params):
                 if np.random.rand() < self.crossover_rate:
                     trial_popul[i, j] = mutated_popul[i, j]
         return trial_popul
     
-    def avg_distance(self, popul):
-        avg_distance = np.mean(np.linalg.norm(popul - popul.mean(axis=0), axis=1))
+    def avg_distance(self):
+        avg_distance = np.mean(np.linalg.norm(self.population - self.population.mean(axis=0), axis=1))
         return avg_distance
     
 
     def evolve(self):
         success_rate = 0
         for _ in range(self.max_iterations):
-            mutated_popul = self.mutate(self.population)
-            trial_popul = self.crossover(self.population, mutated_popul)
+            mutated_popul = self.mutate()
+            trial_popul = self.crossover(mutated_popul)
             obj_val_trial = self.objective_fun(trial_popul)
             
             for i in range(self.popul_size):
@@ -86,7 +86,7 @@ class DifferentialEvolution:
                     self.obj_val[i] = obj_val_trial[i]
             if not self.train:
                 add_point(min(self.obj_val), self.objective_fun)
-        avg_distance = self.avg_distance(self.population)
+        avg_distance = self.avg_distance()
         success_rate = success_rate/(self.max_iterations*self.popul_size)
         state = (success_rate, avg_distance)  
         

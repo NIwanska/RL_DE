@@ -18,8 +18,9 @@ class Env:
             num_diff = 1,  #2
             train = train
         )
+        self.dim = dimensions
         self.safed_de_state = None
-        self.observation_space = self.create_obs_space(dimensions)
+        self.observation_space = self.create_obs_space()
         self.actions_counter = 0
         self.prev_result = None
         self.iter_per_episode = iterations_per_episode
@@ -49,9 +50,9 @@ class Env:
     def safe_de_state(self):
         self.safe_de_state = self.de.population
 
-    def create_obs_space(self, dimensions):
+    def create_obs_space(self):
         values1 = np.arange(0, 1.05, 0.05)
-        values2 = np.linspace(0, 200*np.sqrt(dimensions), 20)
+        values2 = np.linspace(0, 200*np.sqrt(self.dim), 20)
         values3 = np.arange(0, 6)
         return (values1, values2, values3)
         
@@ -66,16 +67,15 @@ class Env:
         done = False
         self.action(action)
         result, next_state = self.de.evolve()
-        reward = (next_state[0]-0.2) * 10
+        reward = ((next_state[0]-0.2)  + (next_state[1]/(200*np.sqrt(self.dim))) -0.2)*10
+        print((next_state[0]-0.2), (next_state[1]/(200*np.sqrt(self.dim))) -0.2)
         self.actions_counter += 1
-
         if self.actions_counter >= self.iter_per_episode:
             done = True
-
         return (next_state, reward, done)
     
     def get_first_state(self):
-        avg_distance = self.de.avg_distance(self.de.population)
+        avg_distance = self.de.avg_distance()
         return (0, avg_distance)
     
     

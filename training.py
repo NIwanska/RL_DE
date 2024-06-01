@@ -14,20 +14,15 @@ fs = [f1, f2, f3]
 
 
 env_handler = Env(func=f1, population_size=25, iterrations_per_action=10, 
-                  dimensions=2, iterations_per_episode=200, train=True)
+                  dimensions=2, iterations_per_episode=20, train=True)
 
 observation_space = env_handler.observation_space
 
-
-
 q_solver = QLearningSolver(observation_space)
-
 
 q_solver = train_qsolver(q_solver, env_handler, 1000, fs, False, True)
 
-
-
-with open('1new_q_solver123_2_1000.pkl', 'wb') as file:
+with open('new_2_q_solver123_2_1000.pkl', 'wb') as file:
     pickle.dump(q_solver, file)
 
 

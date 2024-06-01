@@ -16,7 +16,7 @@ class Plot_conv:
         self.tests_2 =0
         self.x = 0
         self.tests = 0
-        self.x_max = 200
+        self.x_max = 1000
         self.tests_max = 50
         self.ys = [[] for _ in range(self.tests_max)]
         self.fig, self.ax = plt.subplots()

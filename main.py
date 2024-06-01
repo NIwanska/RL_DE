@@ -32,7 +32,7 @@ def testing(f, k, dim_f, dim_q, iter):
         DE.initialize_popul()
         DE.evolve()
 
-    with open(f'new_q_solver123_{dim_q}_1000.pkl', 'rb') as file:
+    with open(f'new_2_q_solver123_{dim_q}_1000.pkl', 'rb') as file:
         q_solver = pickle.load(file)
 
     for _ in range(50):
@@ -50,7 +50,7 @@ def testing(f, k, dim_f, dim_q, iter):
 for f in range(6):
     for iter in [1000]:
         for dim_q in [2, 10]:
-            for dim_f    in [2]:
+            for dim_f    in [10]:
                 if dim_f == 2:
                     k = 200
                     if f ==3:
