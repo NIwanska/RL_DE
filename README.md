@@ -1,3 +1,1 @@
-git clone https://github.com/tilleyd/cec2017-py
-cd cec2017-py
-python3 setup.py install
+Realizacja projektu zastosowanie uczenia ze wzmocnieniem (RL) do ustawienia sposobu mutacji i współczynnika skalowanie w algorytmie ewolucji różnicowej (DE)
